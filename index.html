@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Event Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #1a76d1;
+        }
+
+        h1 {
+            text-align: center;
+            color: #000000;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: #444;
+        }
+
+        #form-container,
+        #schedule-container {
+            background-color: #fdfbfb;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input,
+        select,
+        textarea {
+            margin-top: 5px;
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #f3eb11;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f7d204;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+    
+
+        #btns-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        #clear-button {
+            background-color: #f7d204;
+            background-color: #f7d204;
+            background-color: #f7d204;
+            
+        }
+
+
+        #add-sample:hover {
+            background-color: #15803d;
+        }
+
+        #event-handling-container {
+            margin-top: 10px;
+        }
+
+        #event-handling-container div {
+            background-color: #f9fafb;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 5px solid #2563eb;
+            border-radius: 6px;
+        }
+
+        #event-handling-container h4 {
+            margin: 0 0 5px;
+            color: #111827;
+        }
+
+        #event-handling-container span {
+            font-size: 13px;
+            color: #555;
+        }
+
+        #event-handling-container p {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .delete-btn {
+            background-color: #dc2626;
+            margin-top: 10px;
+            padding: 6px 10px;
+            font-size: 13px;
+        }
+
+        .delete-btn:hover {
+            background-color: #b91c1c;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Smart Event Dashboard</h1>
+
+<div id="form-container">
+    <h2>Add New Event</h2>
+    <form id="event-form">
+        <label>Event Title</label>
+        <input type="text" id="event-title" required>
+
+        <label>Event Date</label>
+        <input type="date" id="event-date" required>
+
+        <label>Event Category</label>
+        <select id="event-category">
+            <option value="webinar">Webinar</option>
+            <option value="social">Social</option>
+            <option value="workshop">Workshop</option>
+            <option value="meetup">Meetup</option>
+        </select>
+
+        <label>Event Description</label>
+        <textarea id="event-description" required></textarea>
+
+        <button type="submit">Add Event</button>
+    </form>
+</div>
+
+<div id="schedule-container">
+    <h2>My Events</h2>
+
+    <div id="btns-container">
+        <button id="clear-button" type="button">Clear All Events</button>
+    </div>
+
+    <div id="event-handling-container">no event yet</div>
+</div>
+
+<script>
+    const form = document.getElementById('event-form');
+    const eventTitle = document.getElementById('event-title');
+    const eventDate = document.getElementById('event-date');
+    const eventCategory = document.getElementById('event-category');
+    const eventDescription = document.getElementById('event-description');
+    const clearBtn = document.getElementById('clear-button');
+    const addSample = document.getElementById('add-sample');
+    const eventContainer = document.getElementById('event-handling-container');
+
+    function createCard(title, date, category, description) {
+        const card = document.createElement('div');
+
+        card.innerHTML = `
+            <h4>${title}</h4>
+            <span>${date}</span><br>
+            <span>${category}</span>
+            <p>${description}</p>
+            <button class="delete-btn">Delete</button>
+        `;
+
+        card.querySelector('.delete-btn').addEventListener('click', function () {
+            card.remove();
+            if (eventContainer.children.length === 0) {
+                eventContainer.innerHTML = 'no event yet';
+            }
+        });
+
+        eventContainer.appendChild(card);
+    }
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        eventContainer.innerHTML = '';
+
+        createCard(
+            eventTitle.value,
+            eventDate.value,
+            eventCategory.value,
+            eventDescription.value
+        );
+
+        form.reset();
+    });
+
+    clearBtn.addEventListener('click', function () {
+        eventContainer.innerHTML = 'no event yet';
+    });
+
+    
+</script>
+
+</body>
+</html>
